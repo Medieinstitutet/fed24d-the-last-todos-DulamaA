@@ -1,22 +1,25 @@
-
- export const rutiner = [
-  { id: 1, titel: "Plocka leksaker", klar: false },
-  { id: 2, titel: "Äta middag", klar: false },
-  { id: 3, titel: "Gå på toaletten", klar: false },
-  { id: 4, titel: "Duscha", klar: false },
-  { id: 5, titel: "Borsta tänderna", klar: false },
-  { id: 6, titel: "Ta på pyjamas", klar: false },
-  { id: 7, titel: "Läsa en bok eller lyssna på en saga", klar: false },
-  { id: 8, titel: "Säga godnatt!", klar: false },
-];
+import { useState } from "react";
+import { Todo, startTodos } from "../models/Todo";
 
 export const Kvallsrutin = () => {
+  const [todos, setTodos] = useState<Todo[]>(startTodos);
+
+  const taBortTodo = (id: number) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
   return (
     <div>
       <h2>Kvällsrutin</h2>
       <ul>
-        {rutiner.map((punkt) => (
-          <li key={punkt.id}>{punkt.titel}</li>
+        {todos.map((todo) => (
+          <li
+            key={todo.id}
+            onClick={() => taBortTodo(todo.id)}
+            style={{ cursor: "pointer" }}
+          >
+            {todo.titel}
+          </li>
         ))}
       </ul>
     </div>
