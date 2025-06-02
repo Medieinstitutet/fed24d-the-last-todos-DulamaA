@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Todo, startTodos } from "../models/Todo";
+import { startTodos, Todo } from "../models/Todo";
+import "./Kvallsrutin.css";
 
 export const Kvallsrutin = () => {
   const [todos, setTodos] = useState<Todo[]>(startTodos);
@@ -8,17 +9,21 @@ export const Kvallsrutin = () => {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const markeraSomKlar = (id: number) => {
+    const uppdaterad = todos.map((todo) =>
+      todo.id === id ? { ...todo, klar: !todo.klar } : todo
+    );
+    setTodos(uppdaterad);
+  };
+
   return (
     <div>
       <h2>Kvällsrutin</h2>
-      <ul>
+      <ul className="kvallslista">
         {todos.map((todo) => (
-          <li
-            key={todo.id}
-            onClick={() => taBortTodo(todo.id)}
-            style={{ cursor: "pointer" }}
-          >
-            {todo.titel}
+          <li key={todo.id} className={todo.klar ? "klar" : ""}>
+            <span onClick={() => markeraSomKlar(todo.id)}>{todo.titel}</span>
+            <button onClick={() => taBortTodo(todo.id)}>Ta bort</button>
           </li>
         ))}
       </ul>
