@@ -22,7 +22,21 @@ export const Kvallsrutin = () => {
       <ul className="kvallslista">
         {todos.map((todo) => (
           <li key={todo.id} className={todo.klar ? "klar" : ""}>
-            <span onClick={() => markeraSomKlar(todo.id)}>{todo.titel}</span>
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                flex: 1,
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={todo.klar}
+                onChange={() => markeraSomKlar(todo.id)}
+              />
+              <span>{todo.titel}</span>
+            </label>
             <button onClick={() => taBortTodo(todo.id)}>Ta bort</button>
           </li>
         ))}
