@@ -14,6 +14,7 @@ const hämtaTodoLista = (): Todo[] => {
 export const Kvallsrutin = () => {
   const [todos, setTodos] = useState<Todo[]>(hämtaTodoLista());
   const [nyTodo, setNyTodo] = useState("");
+  const [oklara, setOklara] = useState(true);
 
   const taBortTodo = (id: number) => {
     const uppdaterad = todos.filter((todo) => todo.id !== id);
@@ -44,60 +45,39 @@ export const Kvallsrutin = () => {
     setNyTodo("");
   };
 
+  const sorteradeTodos = [...todos].sort((a, b) =>
+    oklara ? Number(a.klar) - Number(b.klar) : Number(b.klar) - Number(a.klar)
+  );
+
   return (
     <div>
       <h2>Kvällsrutin</h2>
 
-      <h3>Att göra</h3>
-      <ul className="kvallslista">
-        {todos
-          .filter((todo) => !todo.klar)
-          .map((todo) => (
-            <li key={todo.id} className="">
-              <label
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  flex: 1,
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={todo.klar}
-                  onChange={() => markeraSomKlar(todo.id)}
-                />
-                <span>{todo.titel}</span>
-              </label>
-              <button onClick={() => taBortTodo(todo.id)}>Ta bort</button>
-            </li>
-          ))}
-      </ul>
+      <button onClick={() => setOklara(!oklara)}>
+        Sortera: {oklara ? "Oklara" : "Klara"}
+      </button>
 
-      <h3 style={{ marginTop: "30px" }}>Klart</h3>
       <ul className="kvallslista">
-        {todos
-          .filter((todo) => todo.klar)
-          .map((todo) => (
-            <li key={todo.id} className="klar">
-              <label
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  flex: 1,
-                }}
-              >
-                <input
-                  type="checkbox"
-                  checked={todo.klar}
-                  onChange={() => markeraSomKlar(todo.id)}
-                />
-                <span>{todo.titel}</span>
-              </label>
-              <button onClick={() => taBortTodo(todo.id)}>Ta bort</button>
-            </li>
-          ))}
+        {sorteradeTodos.map((todo) => (
+          <li key={todo.id} className={todo.klar ? "klar" : ""}>
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                flex: 1,
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={todo.klar}
+                onChange={() => markeraSomKlar(todo.id)}
+              />
+              <span>{todo.titel}</span>
+            </label>
+            <button onClick={() => taBortTodo(todo.id)}>Ta bort</button>
+          </li>
+        ))}
       </ul>
 
       <div style={{ marginTop: "55px" }}>
