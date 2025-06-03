@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { startTodos, Todo } from "../models/Todo";
+import TodoList from "./TodoList";
+import TodoForm from "./TodoForm";
 import "./Kvallsrutin.css";
 
 const hämtaTodoLista = (): Todo[] => {
@@ -13,36 +15,32 @@ const hämtaTodoLista = (): Todo[] => {
 
 export const Kvallsrutin = () => {
   const [todos, setTodos] = useState<Todo[]>(hämtaTodoLista());
-  const [nyTodo, setNyTodo] = useState("");
   const [oklara, setOklara] = useState(true);
 
+  const uppdateraStorage = (lista: Todo[]) => {
+    setTodos(lista);
+    localStorage.setItem("kvallsTodos", JSON.stringify(lista));
+  };
+
   const taBortTodo = (id: number) => {
-    const uppdaterad = todos.filter((todo) => todo.id !== id);
-    setTodos(uppdaterad);
-    localStorage.setItem("kvallsTodos", JSON.stringify(uppdaterad));
+    uppdateraStorage(todos.filter((todo) => todo.id !== id));
   };
 
   const markeraSomKlar = (id: number) => {
     const uppdaterad = todos.map((todo) =>
       todo.id === id ? { ...todo, klar: !todo.klar } : todo
     );
-    setTodos(uppdaterad);
-    localStorage.setItem("kvallsTodos", JSON.stringify(uppdaterad));
+    uppdateraStorage(uppdaterad);
   };
 
-  const läggTillTodo = () => {
-    if (nyTodo.trim() === "") return;
-
-    const nyttTodo: Todo = {
+  const läggTillTodo = (titel: string) => {
+    if (titel.trim() === "") return;
+    const nytt: Todo = {
       id: Date.now(),
-      titel: nyTodo,
+      titel,
       klar: false,
     };
-
-    const uppdaterad = [...todos, nyttTodo];
-    setTodos(uppdaterad);
-    localStorage.setItem("kvallsTodos", JSON.stringify(uppdaterad));
-    setNyTodo("");
+    uppdateraStorage([...todos, nytt]);
   };
 
   const sorteradeTodos = [...todos].sort((a, b) =>
@@ -52,46 +50,17 @@ export const Kvallsrutin = () => {
   return (
     <div>
       <h2>Kvällsrutin</h2>
-
       <button onClick={() => setOklara(!oklara)}>
         Sortera: {oklara ? "Oklara" : "Klara"}
       </button>
 
-      <ul className="kvallslista">
-        {sorteradeTodos.map((todo) => (
-          <li key={todo.id} className={todo.klar ? "klar" : ""}>
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                flex: 1,
-              }}
-            >
-              <input
-                type="checkbox"
-                checked={todo.klar}
-                onChange={() => markeraSomKlar(todo.id)}
-              />
-              <span>{todo.titel}</span>
-            </label>
-            <button onClick={() => taBortTodo(todo.id)}>Ta bort</button>
-          </li>
-        ))}
-      </ul>
+      <TodoList
+        todos={sorteradeTodos}
+        onToggle={markeraSomKlar}
+        onDelete={taBortTodo}
+      />
 
-      <div style={{ marginTop: "55px" }}>
-        <h3>Lägg till ny rutin:</h3>
-        <input
-          type="text"
-          value={nyTodo}
-          onChange={(e) => setNyTodo(e.target.value)}
-          placeholder="Skriv ny rutin..."
-        />
-        <button onClick={läggTillTodo} style={{ marginLeft: "10px" }}>
-          Lägg till
-        </button>
-      </div>
+      <TodoForm onAdd={läggTillTodo} />
     </div>
   );
 };
