@@ -1,9 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { startTodos, Todo } from "../models/Todo";
 import "./Kvallsrutin.css";
 
 export const Kvallsrutin = () => {
   const [todos, setTodos] = useState<Todo[]>(startTodos);
+
+  useEffect(() => {
+    const sparadLista = localStorage.getItem("kvallsTodos");
+    if (sparadLista) {
+      setTodos(JSON.parse(sparadLista));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("kvallsTodos", JSON.stringify(todos));
+  }, [todos]);
 
   const taBortTodo = (id: number) => {
     setTodos(todos.filter((todo) => todo.id !== id));
