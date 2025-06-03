@@ -14,6 +14,7 @@ export const Kvallsrutin = () => {
       todo.id === id ? { ...todo, klar: !todo.klar } : todo
     );
     setTodos(uppdaterad);
+    console.log("Uppdaterad lista:", uppdaterad);
   };
 
   return (
