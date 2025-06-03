@@ -28,9 +28,26 @@ export const Kvallsrutin = () => {
     localStorage.setItem("kvallsTodos", JSON.stringify(uppdaterad));
   };
 
+  const [nyTodo, setNyTodo] = useState("");
+  const läggTillTodo = () => {
+    if (nyTodo.trim() === "") return;
+
+    const nyttTodo: Todo = {
+      id: Date.now(),
+      titel: nyTodo,
+      klar: false,
+    };
+
+    const uppdaterad = [...todos, nyttTodo];
+    setTodos(uppdaterad);
+    localStorage.setItem("kvallsTodos", JSON.stringify(uppdaterad));
+    setNyTodo("");
+  };
+
   return (
     <div>
       <h2>Kvällsrutin</h2>
+
       <ul className="kvallslista">
         {todos.map((todo) => (
           <li key={todo.id} className={todo.klar ? "klar" : ""}>
@@ -53,6 +70,18 @@ export const Kvallsrutin = () => {
           </li>
         ))}
       </ul>
+      <div style={{ marginTop: "55px" }}>
+        <h3>Lägg till ny rutin:</h3>
+        <input
+          type="text"
+          value={nyTodo}
+          onChange={(e) => setNyTodo(e.target.value)}
+          placeholder="Skriv ny rutin..."
+        />
+        <button onClick={läggTillTodo} style={{ marginLeft: "10px" }}>
+          Lägg till
+        </button>
+      </div>
     </div>
   );
 };
