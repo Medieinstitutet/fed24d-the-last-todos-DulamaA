@@ -1,42 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { startTodos, Todo } from "../models/Todo";
 import "./Kvallsrutin.css";
 
+
+const hämtaTodoLista = (): Todo[] => {
+  const sparad = localStorage.getItem("kvallsTodos");
+  return sparad ? JSON.parse(sparad) : startTodos;
+};
+
 export const Kvallsrutin = () => {
-  const [todos, setTodos] = useState<Todo[] | null>(null);
-
-  useEffect(() => {
-    const sparadLista = localStorage.getItem("kvallsTodos");
-    if (sparadLista) {
-      setTodos(JSON.parse(sparadLista));
-    } else {
-      setTodos(startTodos);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (todos) {
-      localStorage.setItem("kvallsTodos", JSON.stringify(todos));
-    }
-  }, [todos]);
+  const [todos, setTodos] = useState<Todo[]>(hämtaTodoLista());
 
   const taBortTodo = (id: number) => {
-    if (!todos) return;
-    setTodos(todos.filter((todo) => todo.id !== id));
+    const uppdaterad = todos.filter((todo) => todo.id !== id);
+    setTodos(uppdaterad);
+    localStorage.setItem("kvallsTodos", JSON.stringify(uppdaterad));
   };
 
   const markeraSomKlar = (id: number) => {
-    if (!todos) return;
     const uppdaterad = todos.map((todo) =>
       todo.id === id ? { ...todo, klar: !todo.klar } : todo
     );
     setTodos(uppdaterad);
-    console.log("Uppdaterad lista:", uppdaterad);
+    localStorage.setItem("kvallsTodos", JSON.stringify(uppdaterad));
   };
-
-  if (!todos) {
-    return <p>Laddar kvällslistan...</p>;
-  }
 
   return (
     <div>
