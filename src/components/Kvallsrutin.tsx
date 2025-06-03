@@ -44,12 +44,16 @@ export const Kvallsrutin = () => {
     setNyTodo("");
   };
 
+  const sorteradeTodos = [...todos].sort((a, b) => {
+    return Number(a.klar) - Number(b.klar);
+  });
+
   return (
     <div>
       <h2>Kvällsrutin</h2>
 
       <ul className="kvallslista">
-        {todos.map((todo) => (
+        {sorteradeTodos.map((todo) => (
           <li key={todo.id} className={todo.klar ? "klar" : ""}>
             <label
               style={{
