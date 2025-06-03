@@ -2,10 +2,13 @@ import { useState } from "react";
 import { startTodos, Todo } from "../models/Todo";
 import "./Kvallsrutin.css";
 
-
 const hämtaTodoLista = (): Todo[] => {
   const sparad = localStorage.getItem("kvallsTodos");
-  return sparad ? JSON.parse(sparad) : startTodos;
+  if (sparad) {
+    const parsed = JSON.parse(sparad);
+    return parsed.length > 0 ? parsed : startTodos;
+  }
+  return startTodos;
 };
 
 export const Kvallsrutin = () => {
