@@ -3,30 +3,40 @@ import { startTodos, Todo } from "../models/Todo";
 import "./Kvallsrutin.css";
 
 export const Kvallsrutin = () => {
-  const [todos, setTodos] = useState<Todo[]>(startTodos);
+  const [todos, setTodos] = useState<Todo[] | null>(null);
 
   useEffect(() => {
     const sparadLista = localStorage.getItem("kvallsTodos");
     if (sparadLista) {
       setTodos(JSON.parse(sparadLista));
+    } else {
+      setTodos(startTodos);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("kvallsTodos", JSON.stringify(todos));
+    if (todos) {
+      localStorage.setItem("kvallsTodos", JSON.stringify(todos));
+    }
   }, [todos]);
 
   const taBortTodo = (id: number) => {
+    if (!todos) return;
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   const markeraSomKlar = (id: number) => {
+    if (!todos) return;
     const uppdaterad = todos.map((todo) =>
       todo.id === id ? { ...todo, klar: !todo.klar } : todo
     );
     setTodos(uppdaterad);
     console.log("Uppdaterad lista:", uppdaterad);
   };
+
+  if (!todos) {
+    return <p>Laddar kvällslistan...</p>;
+  }
 
   return (
     <div>
