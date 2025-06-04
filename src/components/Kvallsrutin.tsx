@@ -2,7 +2,7 @@ import { useState } from "react";
 import { startTodos, Todo } from "../models/Todo";
 import TodoList from "./TodoList";
 import TodoForm from "./TodoForm";
-import "./Kvallsrutin.css";
+
 
 const hämtaTodoLista = (): Todo[] => {
   const sparad = localStorage.getItem("kvallsTodos");
