@@ -3,10 +3,12 @@ import Kvallsrutin from "./components/Kvallsrutin";
 
 function App() {
   return (
-    <>
-      <h1>Barnets kvällslista</h1>
+    <div className="min-h-screen bg-white text-black p-4">
+      <h1 className="text-4xl font-bold text-center mb-4">
+        Barnets kvällslista
+      </h1>
       <Kvallsrutin />
-    </>
+    </div>
   );
 }
 

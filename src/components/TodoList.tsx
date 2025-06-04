@@ -4,7 +4,7 @@ import type { TodoListProps } from "../models/TodoTypes";
 
 const TodoList = ({ todos, onToggle, onDelete }: TodoListProps) => {
   return (
-    <ul className="kvallslista">
+    <ul className="list-none p-0">
       {todos.map((todo: Todo) => (
         <TodoItem
           key={todo.id}

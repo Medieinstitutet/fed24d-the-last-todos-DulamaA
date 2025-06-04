@@ -3,7 +3,6 @@ import { startTodos, Todo } from "../models/Todo";
 import TodoList from "./TodoList";
 import TodoForm from "./TodoForm";
 
-
 const hämtaTodoLista = (): Todo[] => {
   const sparad = localStorage.getItem("kvallsTodos");
   if (sparad) {
@@ -48,12 +47,15 @@ export const Kvallsrutin = () => {
   );
 
   return (
-    <div>
-      <h2>Kvällsrutin</h2>
-      <button onClick={() => setOklara(!oklara)}>
+    <div className="max-w-xl mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4 text-center">Kvällsrutin</h2>
+
+      <button
+        onClick={() => setOklara(!oklara)}
+        className="mb-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+      >
         Sortera: {oklara ? "Oklara" : "Klara"}
       </button>
-
       <TodoList
         todos={sorteradeTodos}
         onToggle={markeraSomKlar}
