@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { TodoFormProps } from "../models/TodoTypes";
 
+//Add form för att lägga till nya todos
 const TodoForm = ({ onAdd }: TodoFormProps) => {
   const [nyTodo, setNyTodo] = useState("");
 

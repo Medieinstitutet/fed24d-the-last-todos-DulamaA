@@ -1,5 +1,6 @@
 import type { TodoItemProps } from "../models/TodoTypes";
 
+//Enskild todo-rad, får funktioner som props från förälder
 const TodoItem = ({ todo, onToggle, onDelete }: TodoItemProps) => {
   return (
     <li

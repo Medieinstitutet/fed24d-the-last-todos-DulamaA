@@ -3,6 +3,7 @@ import { startTodos, Todo } from "../models/Todo";
 import TodoList from "./TodoList";
 import TodoForm from "./TodoForm";
 
+//Hämtar todo-lista från localStorage eller använder startTodos om ingen lista finns
 const hämtaTodoLista = (): Todo[] => {
   const sparad = localStorage.getItem("kvallsTodos");
   if (sparad) {
@@ -13,18 +14,22 @@ const hämtaTodoLista = (): Todo[] => {
 };
 
 export const Kvallsrutin = () => {
+  //State med alla todos, hanteras centralt
   const [todos, setTodos] = useState<Todo[]>(hämtaTodoLista());
   const [oklara, setOklara] = useState(true);
 
+  //Uppdatera localStorage och state med ny todo-lista
   const uppdateraStorage = (lista: Todo[]) => {
     setTodos(lista);
     localStorage.setItem("kvallsTodos", JSON.stringify(lista));
   };
 
+  //Ta bort en todo från listan
   const taBortTodo = (id: number) => {
     uppdateraStorage(todos.filter((todo) => todo.id !== id));
   };
 
+  //Markera en todo som klar eller oklart
   const markeraSomKlar = (id: number) => {
     //Toggle status för todo med angivet id
     const uppdaterad = todos.map((todo) =>
@@ -33,6 +38,7 @@ export const Kvallsrutin = () => {
     uppdateraStorage(uppdaterad);
   };
 
+  //Lägg till en ny todo i listan
   const läggTillTodo = (titel: string) => {
     if (titel.trim() === "") return;
     const nytt: Todo = {
@@ -43,6 +49,7 @@ export const Kvallsrutin = () => {
     uppdateraStorage([...todos, nytt]);
   };
 
+  //Sortera todos baserat på status
   const sorteradeTodos = [...todos].sort((a, b) =>
     oklara ? Number(a.klar) - Number(b.klar) : Number(b.klar) - Number(a.klar)
   );
