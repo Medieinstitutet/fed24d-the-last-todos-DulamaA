@@ -11,7 +11,9 @@ const TodoForm = ({ onAdd }: TodoFormProps) => {
 
   return (
     <div className="mt-14">
-      <h3 className="text-lg font-semibold mb-2">Lägg till ny rutin:</h3>
+      <h3 className="text-lg font-semibold mb-2 gap-2">
+        ✍️🌈✨Lägg till ny rutin:
+      </h3>
       <input
         type="text"
         value={nyTodo}
