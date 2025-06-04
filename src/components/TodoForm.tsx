@@ -17,11 +17,11 @@ const TodoForm = ({ onAdd }: TodoFormProps) => {
         value={nyTodo}
         onChange={(e) => setNyTodo(e.target.value)}
         placeholder="Skriv ny rutin..."
-        className="border border-gray-400 rounded px-3 py-1 w-full max-w-xs"
+        className="border border-gray-400 rounded px-3 py-1 w-full max-w-xs text-black bg-white"
       />
       <button
         onClick={läggTill}
-        className="bg-orange-900 text-white rounded px-4 py-1.5 ml-3"
+        className="bg-cyan-700 text-white rounded px-4 py-1.5 ml-3 hover:bg-cyan-800 transition"
       >
         Lägg till
       </button>

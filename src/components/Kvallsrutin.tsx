@@ -52,7 +52,7 @@ export const Kvallsrutin = () => {
 
       <button
         onClick={() => setOklara(!oklara)}
-        className="mb-6 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+        className="mb-6 bg-cyan-700 text-white px-4 py-2 rounded hover:bg-cyan-800 transition"
       >
         Sortera: {oklara ? "Oklara" : "Klara"}
       </button>

@@ -3,23 +3,22 @@ import type { TodoItemProps } from "../models/TodoTypes";
 const TodoItem = ({ todo, onToggle, onDelete }: TodoItemProps) => {
   return (
     <li
-      className={`flex justify-between items-center mb-2.5 p-2.5 rounded-lg ${
-        todo.klar
-          ? "bg-[#1e1e1e] text-gray-400 line-through"
-          : "bg-[#1e1e1e] text-white"
-      }`}
+      className={`flex justify-between items-center mb-2 p-3 rounded ${
+        todo.klar ? "line-through text-gray-400" : "text-white"
+      } bg-black`}
     >
-      <label className="flex items-center gap-2 flex-1">
+      <label className="flex items-center gap-4 flex-1 ">
         <input
           type="checkbox"
           checked={todo.klar}
           onChange={() => onToggle(todo.id)}
+          className="w-5 h-5 border border-black text-black checked:bg-black"
         />
-        <span className="flex-1 cursor-pointer">{todo.titel}</span>
+        <span className="text-lg text-center flex-1">{todo.titel}</span>
       </label>
       <button
-        className="bg-orange-900 text-white rounded px-3 py-1.5"
         onClick={() => onDelete(todo.id)}
+        className="bg-cyan-700 text-white px-3 py-1 rounded hover:bg-cyan-800"
       >
         Ta bort
       </button>
