@@ -26,6 +26,7 @@ export const Kvallsrutin = () => {
   };
 
   const markeraSomKlar = (id: number) => {
+    //Toggle status för todo med angivet id
     const uppdaterad = todos.map((todo) =>
       todo.id === id ? { ...todo, klar: !todo.klar } : todo
     );
